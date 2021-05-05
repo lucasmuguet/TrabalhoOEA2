@@ -15,7 +15,7 @@ struct _Endereco{
 	char lixo[2];
 };
 
-typedef struct _Endereco e;
+typedef struct _Endereco* e;
 
 int cmp(const void *a, const void *b){
   return (*(int *)a - *(int *)b);
@@ -52,6 +52,17 @@ void inter(char *x, char *y, char *z){
  fclose(s);
 }
 
+void cala(char v[31][15], e ab, int num){
+  qsort(ab,num,sizeof(e), cmp);
+  for(int j=0;j<17;j++){
+    int v1=1,v2=2,v3=17;
+    inter(v[v1],v[v2],v[v3]);
+    v1=v1+2;
+    v2=v2+2;
+    v3++;
+  }
+}
+
 
 int main(int argc, char *argv[]){
   FILE *a, *s;
@@ -64,27 +75,19 @@ int main(int argc, char *argv[]){
   long z=y/w;
   ed=(e*) malloc(z*sizeof(e));
   fseek(a,0,SEEK_SET);
-  int i=0,j=0;
+  int i=0;
   char c2[31][15];
   while(i<=15){
     char c[15];
     sprintf(c,"%d.dat",i);
     s=fopen(c,"w");
-    c2[i][j]=c[i];
-    qsort(ed,z,sizeof(e), cmp);
+    c2[i][0]=c[i];
     fwrite(ed,sizeof(e),z,s);
     fclose(s);
     i++;
-    j++;
   }
   fclose(a);
   free(ed);
-  for(int j=0;j<17;j++){
-    int a1=1,a2=2,a3=17;
-    inter(c2[a1],c2[a2],c2[a3]);
-    a1=a1+2;
-    a2=a2+2;
-    a3++;
-  }
+  cala(c2, *ed, z);
   return 0;
 }
